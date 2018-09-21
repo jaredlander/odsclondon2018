@@ -79,3 +79,58 @@ xg5 <- xgb.train(
     eval_metric='logloss',
     watchlist=list(train=xgTrain, validate=xgVal)
 )
+
+xg5$evaluation_log
+dygraph(xg5$evaluation_log)
+
+
+xg6 <- xgb.train(
+    data=xgTrain,
+    objective='binary:logistic',
+    nrounds=300,
+    eval_metric='logloss',
+    watchlist=list(train=xgTrain, validate=xgVal),
+    early_stopping_rounds=70
+)
+xg6$best_iteration
+xg6$best_score
+
+xg7 <- xgb.train(
+    data=xgTrain,
+    objective='binary:logistic',
+    nrounds=1000,
+    eval_metric='logloss',
+    watchlist=list(train=xgTrain, validate=xgVal),
+    early_stopping_rounds=70,
+    max_depth=8
+)
+
+xg8 <- xgb.train(
+    data=xgTrain,
+    objective='binary:logistic',
+    nrounds=1000,
+    eval_metric='logloss',
+    watchlist=list(train=xgTrain, validate=xgVal),
+    early_stopping_rounds=70,
+    max_depth=3
+)
+
+xg7$best_score
+xg8$best_score
+
+xg9 <- xgb.train(
+    data=xgTrain,
+    objective='binary:logistic',
+    nrounds=10,
+    eval_metric='logloss',
+    watchlist=list(train=xgTrain, validate=xgVal),
+    early_stopping_rounds=70,
+    max_depth=3,
+    subsample=0.5, colsample_bytree=0.5,
+    num_parallel_tree=50
+)
+
+xgb.plot.importance(
+    xgb.importance(xg7, feature_names=colnames(landX_train)))
+
+?xgb.train
